@@ -68,6 +68,24 @@ class _BooksPageState extends State<BooksPage> {
     });
   }
 
+  List<Book> filteredBooks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredBooks = books;
+  }
+
+  void searchBooks(String query) {
+    setState(() {
+      filteredBooks = books
+          .where((book) =>
+              book.title.toLowerCase().contains(query.toLowerCase()) ||
+              book.author.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,9 +97,20 @@ class _BooksPageState extends State<BooksPage> {
             fontFamily: 'OpenSans',
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: BookSearchDelegate(books),
+              );
+            },
+          )
+        ],
       ),
       body: ListView.builder(
-        itemCount: books.length,
+        itemCount: filteredBooks.length,
         itemBuilder: (context, index) {
           return ListTile(
             onTap: () {
@@ -93,7 +122,7 @@ class _BooksPageState extends State<BooksPage> {
               );
             },
             leading: Image.network(
-              books[index].imageUrl,
+              filteredBooks[index].imageUrl,
               width: 100,
               height: 100,
             ),
@@ -103,8 +132,8 @@ class _BooksPageState extends State<BooksPage> {
                 removeFromList(index);
               },
             ),
-            title: Text(books[index].title),
-            subtitle: Text(books[index].author),
+            title: Text(filteredBooks[index].title),
+            subtitle: Text(filteredBooks[index].author),
           );
         },
       ),
@@ -165,6 +194,71 @@ class _BooksPageState extends State<BooksPage> {
         },
         child: Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class BookSearchDelegate extends SearchDelegate<String> {
+  final List<Book> books;
+
+  BookSearchDelegate(this.books);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return _buildSearchResults();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return _buildSearchResults();
+  }
+  Widget _buildSearchResults() {
+    final List<Book> filteredBooks = books
+        .where((book) =>
+            book.title.toLowerCase().contains(query.toLowerCase()) ||
+            book.author.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return ListView.builder(
+      itemCount: filteredBooks.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(filteredBooks[index].title),
+          subtitle: Text(filteredBooks[index].author),
+          onTap: () {
+            // Naviguer vers l'écran de détails du livre
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    BookDetailsPage(),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
