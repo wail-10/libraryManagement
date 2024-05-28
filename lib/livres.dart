@@ -89,6 +89,7 @@ class _BooksPageState extends State<BooksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Books Page',
@@ -127,12 +128,12 @@ class _BooksPageState extends State<BooksPage> {
               height: 100,
             ),
             trailing: IconButton(
-              icon: Icon(Icons.delete),
+              icon: Icon(Icons.delete, color: Colors.redAccent),
               onPressed: () {
                 removeFromList(index);
               },
             ),
-            title: Text(filteredBooks[index].title),
+            title: Text(filteredBooks[index].title, style: TextStyle(color: Colors.blueAccent),),
             subtitle: Text(filteredBooks[index].author),
           );
         },
@@ -143,6 +144,7 @@ class _BooksPageState extends State<BooksPage> {
       //   ],
       // ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
         onPressed: () {
           showDialog(
             context: context,

@@ -43,6 +43,7 @@ class HomePage extends StatelessWidget {
           ),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
           children: [
             DrawerHeader(
@@ -74,12 +75,12 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('Home'),
-              leading: Icon(Icons.home),
+              leading: Icon(Icons.home, color: Colors.blueAccent),
               onTap: () {},
             ),
             ListTile(
               title: Text('Livres'),
-              leading: Icon(Icons.book),
+              leading: Icon(Icons.book, color: Colors.blueAccent),
               onTap: () {
                 Navigator.push(
                   context,
@@ -89,7 +90,7 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('Adherents'),
-              leading: Icon(Icons.people),
+              leading: Icon(Icons.people, color: Colors.blueAccent),
               onTap: () {
                 Navigator.push(
                   context,
@@ -99,7 +100,7 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               title: Text('About'),
-              leading: Icon(Icons.info),
+              leading: Icon(Icons.info, color: Colors.blueAccent),
               onTap: () {
                 Navigator.push(
                   context,

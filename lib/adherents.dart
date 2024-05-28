@@ -76,13 +76,16 @@ class _AdherentsPageState extends State<AdherentsPage> {
           return ListTile(
             leading: Icon(Icons.person),
             trailing: IconButton(
-              icon: Icon(Icons.delete),
+              icon: Icon(Icons.delete, color: Colors.redAccent),
               onPressed: () {
                 removeFromList(index);
               },
             ),
             title: Text(
               adherents[index].firstName + ' ' + adherents[index].lastName,
+              style: TextStyle(
+                color: Colors.blueAccent,
+              )
             ),
             subtitle: Text(adherents[index].email),
           );
